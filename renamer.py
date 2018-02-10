@@ -18,21 +18,22 @@ def renameNow(dir,newName,extension):# rename all files in dir directory
             seen.append(elem)
             answer.append(elem)
     #repetitions removed
-    
-    
     n = len(answer)-1
+    
+    files = list(dir.glob('./*'+extension))##lista com todos os arquivos com a mesma extensao dada deste diretorio e dos diretorios dentro deles(merda)
+    
     while(n>=0):
         newName = answer[n]+'_'+ newName
         n=n-1
     
-    print('\ndirectory: '+newName)
-    files = list(dir.glob('**/*'+extension))##lista com todos os arquivos com a mesma extensao dada deste diretorio e dos diretorios dentro deles(merda)
+    print('\ndirectory: '+newName+'\nfile:')
+    
     i=0
     for file in files:
         i=i+1
         finalName = newName+str(i)+extension
         print(file)##arquivo a ser renomeado
-        print(finalName)##novo nome do arquivo
+        print('newname'+finalName)##novo nome do arquivo
         file.rename(str(dir)+'/'+finalName)
         
         
