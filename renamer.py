@@ -30,7 +30,7 @@ def renameNow(dir,extension):# rename all files in dir directory
     i=0
     for file in files:
         i=i+1
-        finalName = newName+str(i)+extension
+        finalName = newName+str(i).zfill(4)+extension
      #   print(file)##arquivo a ser renomeado
      #   print(finalName)##novo nome do arquivo
         try:
