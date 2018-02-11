@@ -9,7 +9,7 @@ def walk(dir,extension):
     
 def renameNow(dir,extension):# rename all files in dir directory
     t = dir.parts
-   # print(dir.name)
+   
 #######removing repetitions in t
     seen = []
     answer = []
@@ -25,31 +25,36 @@ def renameNow(dir,extension):# rename all files in dir directory
     while(n>=0):
         newName = answer[n]+'_'+ newName
         n=n-1
+    newName = newName.lower()
 ############# 
     files = list(dir.glob('./*'+extension))##lista com todos os arquivos com a mesma extensao dada deste diretorio
     i=0
     for file in files:
-        i=i+1
-        finalName = newName+str(i)+extension
-     #   print(file)##arquivo a ser renomeado
-     #   print(finalName)##novo nome do arquivo
-        try:
-            file.rename(str(dir)+'/'+finalName)
-        except Exception:
-            pass
- #   print('\n')
+     
+        worked = False
+        s = file.name
+        if(not s.startswith(newName,0,len(s))):
+
+            while(not worked):
+                i=i+1
+                try:
+                    finalName = newName+str(i).zfill(4)+extension
+                    file.rename(str(dir)+'/'+finalName)
+                    worked = True
+                except Exception:
+                    pass
+ 
 ##############################################       
         
     
 
 #####   main script   ####
-k=10
+
 p = Path('.')## path to this directory
 extension = ".jpg" # change extension here
 print("\nTROCANDO OS NOMES DOS ARQUIVOS "+extension+'...')
 
-for num in range(k):## run a decent amaount of times to ensure that recent added files also will be renamed
-    walk(p,extension)
+walk(p,extension)
 
 print('PRONTO.\n')
 
