@@ -51,8 +51,8 @@ def renameNow(dir,extension):# rename all files in dir directory
 #####   main script   ####
 
 p = Path('.')## path to this directory
-extension = ".jpg" # change extension here
-print("\nTROCANDO OS NOMES DOS ARQUIVOS "+extension+'...')
+extension = '.jpg' # change extension here
+print('\nTROCANDO OS NOMES DOS ARQUIVOS '+extension+'...')
 
 walk(p,extension)
 
