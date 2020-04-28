@@ -1,0 +1,2 @@
+# renamer.py
+### Renomeia arquivos de um dado diretório (e opcionalmente subdiretórios) para uma dada extensão. É os arquivos são renomeados começando de <br>``` nomeOriginal_000...1.extensão ``` até <br>``` nomeOriginal_999...9.extensão ```

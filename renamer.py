@@ -1,63 +1,66 @@
 from pathlib import Path
 
-def walk(dir,extension):
-    dirs = [x for x in dir.iterdir() if x.is_dir()]#list of directories
-    for d in dirs:
-        walk(d,extension)
-        renameNow(d,extension)#when there is no direcroties below
-#################################################        
+def DFS_Renamer(pasta, ext):
+	# Faz:
+	# 1. Visita igual DFS todas as pastas a partir do diretório atual
+	# 2. Renomeia, caso já tenha visitado e não existam pastas internas
+	pastas = [x for x in pasta.iterdir() if x.is_dir()]
+	for p in pastas:
+		DFS_Renamer(p, ext)
+		renomear(p, ext)
+	return 
     
-def renameNow(dir,extension):# rename all files in dir directory
-    t = dir.parts
+    
+def renomear(pastaAtual, ext):
+	t = pastaAtual.parts
    
-#######removing repetitions in t
-    seen = []
-    answer = []
-    for elem in t:
-        if elem not in seen:
-            seen.append(elem)
-            answer.append(elem)
-######repetitions removed
+	visto = []
+	lista = []
 
-#############
-    n = len(answer)-1
-    newName=''
-    while(n>=0):
-        newName = answer[n]+'_'+ newName
-        n=n-1
-    newName = newName.lower()
-############# 
-    files = list(dir.glob('./*'+extension))##lista com todos os arquivos com a mesma extensao dada deste diretorio
-    i=0
-    for file in files:
-     
-        worked = False
-        s = file.name
-        if(not s.startswith(newName,0,len(s))):
+	# Remover repeticoes repetições de t
+	for elem in t:
+		if elem not in visto:
+			visto.append(elem)
+			lista.append(elem)
 
-            while(not worked):
-                i=i+1
-                try:
-                    finalName = newName+str(i).zfill(4)+extension
-                    file.rename(str(dir)+'/'+finalName)
-                    worked = True
-                except Exception:
-                    pass
- 
-##############################################       
-        
-    
+	novoNome=''
+	
+	for k in range(len(answer)-1,-1,-1):
+        	novoNome = lista[k]+'_'+ novoNome
 
-#####   main script   ####
+	novoNome = novoNome.lower()
 
-p = Path('.')## path to this directory
-extension = '.jpg' # change extension here
-print('\nTROCANDO OS NOMES DOS ARQUIVOS '+extension+'...')
+	# Lista com todos os arquivos com a mesma extensão dada deste diretório
+	arquivos = list(dir.glob('./*'+ext))
+	i = 0
+	for a in arquivos:	
+		editado = False
+		nome = a.name
+		if(not nome.startswith(novoNome, 0, len(nome))):
+			while(not editado):
+                		i = i+1
+                		try:
+					finalNome = novoNome+str(i).zfill(4)+ext
+					a.rename(str(dir)+'/'+finalNome)
+					editado = True
+				except Exception as Error:
+					print('Houve algum erro, parando execução:', Error)
+					exit()
+	return 
 
-walk(p,extension)
+if __name__ == '__main__':
+	dirAtual = input('Deseja renomear do diretório atual (s/n)?')
+	caminho = Path('.')
 
-print('PRONTO.\n')
+	if(dirAtual.lower().find('n') != -1):
+		dirAtual = input('Escreva o caminho absoluto do diretório desejado:\n')
+		caminho = Path(dirAtual)
+	
+	extensao = input('Qual extensão você deseja modificar? (ex: \'.doc\')\n')
 
+	print('\nTROCANDO PARA EXTENSÃO '+ extensao +' OS ARQUIVOS DE'+ dirAtual + '!\n')
 
+	DFS_Renamer(dirAtual, extensao)
 
-
+	print('Encerrando!\n')
+	exit()
